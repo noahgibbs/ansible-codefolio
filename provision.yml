@@ -3,7 +3,7 @@
   become: true
 
   vars_files:
-    - app-vars
+    - app-vars.yml
   
   roles: 
     - role: common

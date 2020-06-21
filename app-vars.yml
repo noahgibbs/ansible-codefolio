@@ -1,11 +1,11 @@
 ---
-app_name:           YOUR_APP_NAME
+app_name:           rubymadscience
 deploy_user:        deployer
 deploy_group:       "{{ deploy_user }}"
 deploy_user_path:   "/home/{{ deploy_user }}"
 
 # App Git repo
-app_git_repo:       "YOUR_GIT_REPO"
+app_git_repo:       "git@github.com:noahgibbs/rubymadscience.git"
 app_git_branch:     "master"
 
 # Rails app
