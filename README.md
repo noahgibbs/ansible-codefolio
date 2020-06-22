@@ -1,41 +1,12 @@
-<h1 align="center">Ansible Rails</h1>
-<p align="center">
-    <img src="./images/ansible-rails-promo.jpg" alt="Ansible Rails Promo Image" style="max-width:100%;">
-<p>
+# Ansible-Codefolio
 
-Ansible Rails is a playbook for easily deploying Ruby on Rails applications. It uses Vagrant to provision an environment where you can test your deploys. [Ansistrano](https://github.com/ansistrano/deploy) is used for finally deploying our app to staging and production environments.
-
-While this is meant to work out of the box, you can tweak the files in the `roles` directory in order to satisfy your project-specific requirements. 
-
-> **Shameless plug:** If you're looking for a simple bookmarking tool, try [EmailThis.me](https://www.emailthis.me) - a simpler alternative to Pocket that helps you *save ad-free articles and web pages to your email inbox*.
+Attempted deployment/provisioning script for Codefol.io, forked from EmailThis/ansible-rails
 
 ---
 
-### What does this do?
-* Configure our server with some sensible defaults
-* Install required/useful packages. See notes below for more details.
-* Auto upgrade all installed packages (TODO)
-* Create a new deployment user (called 'deploy') with passwordless login
-* Prevent root login
-* SSH hardening
-    * Prevent password login
-    * Change the default SSH port
-    * Prevent root login
-* Setup UFW (firewall)
-* Setup Fail2ban
-* Install Logrotate
-* Setup Nginx with some sensible config (thanks to nginxconfig.io)
+## Config to Validate Manually
 * Certbot (for Let's encrypt SSL certificates)
 * Ruby (using Rbenv). 
-    * Defaults to `2.6.6`. You can change it in the `app-vars.yml` file
-    * [jemmaloc](https://github.com/jemalloc/jemalloc) is also installed and configured by default
-    * [rbenv-vars](https://github.com/rbenv/rbenv-vars) is also installed by default
-* Node.js 
-    * Defaults to 12.x. You can change it in the `app-vars.yml` file.
-* Yarn
-* Redis (latest)
-* Postgresql. 
-    * Defaults to v12. You can specify the version that you need in the `app-vars.yml` file.
 * Puma (with Systemd support for restarting automatically)
 * Sidekiq (with Systemd support for restarting automatically)
 * Ansistrano hooks for performing the following tasks - 
@@ -43,19 +14,19 @@ While this is meant to work out of the box, you can tweak the files in the `role
     * Precompiling assets
     * Migrating our database (using `run_once`)
 
----
+## How To
 
-### Getting started
-Here are the steps that you need to follow in order to get up and running with Ansible Rails. 
-
-#### Step 1. Installation
+### Install
 
 ```
-git clone https://github.com/EmailThis/ansible-rails ansible-rails
-cd ansible-rails
+git clone https://github.com/noah-gibbs/ansible-codefolio
+cd ansible-codefolio
 ```
 
-#### Step 2. Configuration
+### Configure
+
+(This will be set up for my own use initially. I can skip this step, but if you want to use my config you'll have to change it before real deployment.)
+
 Open `app-vars.yml` and change the following variables. Additionally, please review the `app-vars.yml` and see if there is anything else that you would like to modify (e.g.: install some other packages, change ruby, node or postgresql versions etc.)
 
 ```
@@ -70,20 +41,25 @@ postgresql_db_name:     "{{ app_name }}_production"
 nginx_https_enabled: false # change to true if you wish to install SSL certificate 
 ```
 
+### Passwords, API Keys, Etc.
 
-#### Step 3. Storing sensitive information
-Create a new `vault` file to store sensitive information
-```
-ansible-vault create group_vars/all/vault.yml
-```
+Create a new `vault` file to store sensitive information (unless somebody has already set up this repo for your org not mine).
 
-Add the following information to this new vault file
+1. Come up with a secure new password.
+2. Put that password, all by itself, into a file called .vault_pass in the root of ansible-codefolio
+3. rm group_vars/all/vault.yml
+4. ansible-vault create group_vars/all/vault.yml
+5. Add the following information to this new vault file
 ```
 vault_postgresql_db_password: "XXXXX_SUPER_SECURE_PASS_XXXXX"
 vault_rails_master_key: "XXXXX_MASTER_KEY_FOR_RAILS_XXXXX"
 ```
 
-#### Step 4. Deploy
+Now you can put passwords in there. Don't just copy-and-paste the ones above - you need a new password.
+
+The .vault_pass file will not be checked in by Git automatically because it's in the .gitignore. That's a very good thing.
+
+### Deploy
 
 Now that we have configured everything, lets see if everything is working locally. Run the following command -
 ```
@@ -200,21 +176,3 @@ postgresql_s3_backup_delete_after: "7 days" # days after which old backups shoul
 ```
 
 ---
-
-### Motivation
-I use Heroku to deploy my Rails apps. It makes deployment really easy and I've got no complaints. However, I always wanted to learn how it all works under the hood. Over the last couple of months, I decided to learn more about how to set up a server and deploy a Rails app to production. This project is a consolidation of my learnings.
-
---- 
-
-### Credits
-* [Geerling Guy](https://github.com/geerlingguy) (for his wonderful book on Ansible)
-* [dresden-weekly/ansible-rails](https://github.com/dresden-weekly/ansible-rails)
-
----
-
-### Questions, comments, suggestions?
-Please let me know if you run into any issues or if you have any questions. I'd be happy to help. I would also welcome any improvements/suggestions by way of pull requests.
-
-
-Bharani <br/>
-Founder @ [EmailThis.me](https://www.emailthis.me)

@@ -1,0 +1,21 @@
+---
+- name: Directory for static HTML Git repositories
+  become: yes
+  become_user: "{{ deploy_user }}"
+  file:
+    path: "{{ deploy_user_path }}/checkouts"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_group }}"
+    mode: 0755
+
+- name: Clone or update static HTML Git repositories
+  become: yes
+  become_user: "{{ deploy_user }}"
+  with_items: "{{ static_html_repos }}"
+  git:
+    repo: "{{ item.git_url }}"
+    dest: "{{ item.destination }}"
+    accept_hostkey: yes
+    clone: yes
+    update: yes

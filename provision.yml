@@ -23,3 +23,4 @@
       tags: nginx
     - role: logrotate
       tags: logrotate
+    - role: static_html

@@ -4,8 +4,19 @@ deploy_user:        deployer
 deploy_group:       "{{ deploy_user }}"
 deploy_user_path:   "/home/{{ deploy_user }}"
 
+# Static HTML repos
+static_html_repos:
+- git_url: "https://github.com/noahgibbs/www_static.git"
+  destination: "{{ deploy_user_path }}/checkouts/www_static"
+- git_url: "https://github.com/noahgibbs/codefolio_middleman.git"
+  destination: "{{ deploy_user_path }}/checkouts/codefolio_middleman"
+- git_url: "https://github.com/noahgibbs/mst_site.git"
+  destination: "{{ deploy_user_path }}/checkouts/mst_site"
+- git_url: "https://github.com/noahgibbs/rebuilding_rails_site.git"
+  destination: "{{ deploy_user_path }}/checkouts/rebuilding_rails_site"
+
 # App Git repo
-app_git_repo:       "git@github.com:noahgibbs/rubymadscience.git"
+app_git_repo:       "https://github.com/noahgibbs/rubymadscience.git"
 app_git_branch:     "master"
 
 # Rails app
@@ -71,9 +82,10 @@ required_packages:
   - libgdbm-dev
   - libpq-dev # postgresql client
   - libjemalloc-dev # jemalloc
+  - imagemagick
 
 # Ruby
-ruby_version: 2.6.6
+ruby_version: 2.7.0
 rbenv_ruby_configure_opts: "RUBY_CONFIGURE_OPTS=--with-jemalloc"
 rbenv_root_path: "{{ deploy_user_path }}/.rbenv"
 rbenv_shell_rc_path: "{{ deploy_user_path }}/.bashrc"
