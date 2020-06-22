@@ -4,6 +4,9 @@
   become: true
   become_user: "{{ deploy_user }}"
 
+  vars_files:
+    - app-vars.yml
+
   pre_tasks:
     - name: Setup app folder
       file:

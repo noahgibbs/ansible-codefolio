@@ -59,13 +59,13 @@ Now you can put passwords in there. Don't just copy-and-paste the ones above - y
 
 The .vault_pass file will not be checked in by Git automatically because it's in the .gitignore. That's a very good thing.
 
-### Deploy
+### VM Creation and Provisioning
 
 Now that we have configured everything, lets see if everything is working locally. Run the following command -
 ```
 vagrant up
 ```
-Now open your browser and navigate to 192.168.50.2. You should see your Rails application.
+Now open your browser and navigate to 192.168.50.2. You'll probably see a bad gateway error since you still need to run ansistrano to deploy your app.
 
 If you don't wish to use Vagrant, clone this repo, modify the `inventories/development.ini` file to suit your needs, and then run the following command
 ```
@@ -80,6 +80,20 @@ To deploy this app to your production server, create another file inside `invent
 [all:vars]
 ansible_ssh_user=deployer
 ansible_python_interpreter=/usr/bin/python3
+```
+
+### Deploy
+
+Before your first deploy:
+
+```
+ansible-galaxy install ansistrano.deploy ansistrano.rollback
+```
+
+To deploy using Ansistrano:
+
+```
+ansible-playbook -i inventories/development.ini deploy.yml
 ```
 
 ---
