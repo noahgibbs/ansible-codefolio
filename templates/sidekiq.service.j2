@@ -10,7 +10,7 @@ EnvironmentFile={{ app_root_path }}/.rbenv-vars
 
 WorkingDirectory={{ app_current_path }}
 
-ExecStart={{ rbenv_bundle }} exec sidekiq -e production -C config/sidekiq.yml
+ExecStart={{ rbenv_bundle }} exec sidekiq -e production #-C config/sidekiq.yml
 
 # Greatly reduce Ruby memory fragmentation and heap usage
 # https://www.mikeperham.com/2018/04/25/taming-rails-memory-bloat/

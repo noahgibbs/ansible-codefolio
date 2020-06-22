@@ -10,7 +10,6 @@
 
 - name: Link database.yml into place
   shell: "ln -s {{ ansistrano_deploy_to }}/shared/config/database.yml config/"
-  warn: false
   args:
     chdir: "{{ ansistrano_release_path.stdout }}"
 
