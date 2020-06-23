@@ -1,8 +1,8 @@
 server {
-        listen 80;
+        listen 80 {% if item.default is defined and item.default %}default_server{% endif %};
         listen [::]:80;
 
-        root {{ item.destination }};
+        root {{ item.root }};
         index index.html;
 
         server_name {{ item.urls | join(" ") }};
@@ -21,10 +21,10 @@ server {
           {% endfor %}
         {% endif %}
 
-    listen [::]:443 ssl; # managed by Certbot
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/codefol.io/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/codefol.io/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    #listen [::]:443 ssl; # managed by Certbot
+    #listen 443 ssl; # managed by Certbot
+    #ssl_certificate /etc/letsencrypt/live/codefol.io/fullchain.pem; # managed by Certbot
+    #ssl_certificate_key /etc/letsencrypt/live/codefol.io/privkey.pem; # managed by Certbot
+    #include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    #ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 }

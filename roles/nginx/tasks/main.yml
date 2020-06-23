@@ -45,11 +45,11 @@
     group: "{{ deploy_group }}"
     mode: 0644
 
-- name: Symlink default site
-  file: 
-    src: /etc/nginx/sites-available/default
-    dest: /etc/nginx/sites-enabled/default
-    state: link
+#- name: Symlink default site
+#  file: 
+#    src: /etc/nginx/sites-available/default
+#    dest: /etc/nginx/sites-enabled/default
+#    state: link
 
 - name: Set nginx user
   lineinfile: 

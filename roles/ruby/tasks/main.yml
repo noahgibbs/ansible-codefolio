@@ -82,6 +82,6 @@
   when: rbenv_current_version.stdout != ruby_version
 
 - name: Install Bundler
-  shell: "{{ rbenv_root_path }}/shims/gem install bundler"
+  shell: "{{ rbenv_root_path }}/shims/gem install bundler -v 1.17.2"
   become: yes
   become_user: "{{ deploy_user }}"

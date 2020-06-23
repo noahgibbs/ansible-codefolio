@@ -54,6 +54,11 @@
       tags:
         - copy
 
+    - name: Middleman Build for codefol.io
+      shell: "{{ rbenv_bundle }} install && {{ rbenv_bundle }} exec middleman build"
+      args:
+        chdir: "{{ deploy_user_path }}/checkouts/codefolio_middleman"
+
   roles:
     - role: ansistrano.deploy
     

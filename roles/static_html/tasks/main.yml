@@ -29,3 +29,14 @@
     dest: "/etc/nginx/sites-available/{{ item.name }}_static_html.conf"
     owner: "{{ deploy_user }}"
     group: "{{ deploy_group }}"
+
+- name: NGinX symlinks to enable static HTML hosts
+  become: yes
+  become_user: "root"
+  with_items: "{{ static_html_repos }}"
+  file:
+    state: link
+    src: "/etc/nginx/sites-available/{{ item.name }}_static_html.conf"
+    dest: "/etc/nginx/sites-enabled/{{ item.name }}_static_html.conf"
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_group }}"
