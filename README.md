@@ -6,13 +6,6 @@ Attempted deployment/provisioning script for Codefol.io, forked from EmailThis/a
 
 ## Config to Validate Manually
 * Certbot (for Let's encrypt SSL certificates)
-* Ruby (using Rbenv). 
-* Puma (with Systemd support for restarting automatically)
-* Sidekiq (with Systemd support for restarting automatically)
-* Ansistrano hooks for performing the following tasks - 
-    * Installing all our gems
-    * Precompiling assets
-    * Migrating our database (using `run_once`)
 
 ## How To
 
