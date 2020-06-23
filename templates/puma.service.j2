@@ -9,8 +9,8 @@ EnvironmentFile={{ app_root_path }}/.rbenv-vars
 
 WorkingDirectory={{ app_current_path }}
 
-ExecStart={{ rbenv_bundle }} exec puma -C {{ app_current_path }}/config/puma.rb
-ExecStop={{ rbenv_bundle }} exec puma -S {{ app_current_path }}/config/puma.rb
+ExecStart={{ rbenv_bundle }} exec puma -C {{ app_shared_path }}/config/puma.rb
+ExecStop={{ rbenv_bundle }} exec puma -S {{ app_shared_path }}/config/puma.rb
 PIDFile={{ app_pids_path }}/puma.pid
 
 # Should systemd restart puma?

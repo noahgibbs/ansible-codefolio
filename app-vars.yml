@@ -67,7 +67,7 @@ rails_environment:  production
 
 # Puma
 puma_service_file:  "puma.service.j2"
-puma_config_file:   "{{ app_current_path }}/config/puma.rb"
+puma_config_file:   "{{ app_current_path }}/shared/config/puma.rb"
 puma_socket:        "{{ app_sockets_path }}/puma.sock"
 puma_web_concurrency: 2
 
@@ -95,6 +95,7 @@ ansistrano_shared_paths:
 
 shared_files_to_copy:
   - { src: database.yml.j2, dest: config/database.yml }
+  - { src: puma.rb.j2, dest: config/puma.rb }
 
 # Common
 required_packages:
