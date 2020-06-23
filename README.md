@@ -146,6 +146,8 @@ ufw_rules:
 
 #### Enable Certbot (Let's Encrypt SSL certificates)
 
+Note: I don't think this works when running with a local Vagrant VM. So presumably this is to be done for the production config only.
+
 Add the role to `provision.yml`
 ```
 roles:
