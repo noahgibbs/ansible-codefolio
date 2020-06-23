@@ -19,3 +19,13 @@
     accept_hostkey: yes
     clone: yes
     update: yes
+
+- name: NGinX config for static HTML hosts
+  become: yes
+  become_user: "root"
+  with_items: "{{ static_html_repos }}"
+  template:
+    src: "nginx-static-html-host.j2"
+    dest: "/etc/nginx/sites-available/{{ item.name }}_static_html.conf"
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_group }}"

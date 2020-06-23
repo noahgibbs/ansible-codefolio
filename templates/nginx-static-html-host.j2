@@ -1,0 +1,30 @@
+server {
+        listen 80;
+        listen [::]:80;
+
+        root {{ item.destination }};
+        index index.html;
+
+        server_name {{ item.urls | join(" ") }};
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+        {% if item.redirects is defined %}
+          {% for redir in item.redirects %}
+
+            location {{ redir.url }} {
+                    root {{ redir.destination }};
+                    try_files $uri $uri/ =404;
+            }
+          {% endfor %}
+        {% endif %}
+
+    listen [::]:443 ssl; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/codefol.io/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/codefol.io/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}

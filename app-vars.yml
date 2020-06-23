@@ -6,14 +6,44 @@ deploy_user_path:   "/home/{{ deploy_user }}"
 
 # Static HTML repos
 static_html_repos:
-- git_url: "https://github.com/noahgibbs/www_static.git"
+- name: "www_static"
+  git_url: "https://github.com/noahgibbs/www_static.git"
   destination: "{{ deploy_user_path }}/checkouts/www_static"
-- git_url: "https://github.com/noahgibbs/codefolio_middleman.git"
+  urls:
+    - "angelbob.com"
+    - "static.angelbob.com"
+    - "www.angelbob.com"
+    - "www_static.localdev"
+- name: "codefolio_middleman"
+  git_url: "https://github.com/noahgibbs/codefolio_middleman.git"
   destination: "{{ deploy_user_path }}/checkouts/codefolio_middleman"
-- git_url: "https://github.com/noahgibbs/mst_site.git"
+  urls:
+    - "codefol.io"
+    - "www.codefol.io"
+    - "codefol.io.localdev"
+  redirects:
+    - url: "/speaking"
+      destination: "{{ deploy_user_path }}/checkouts/www_static"
+    - url: "/portfolio"
+      destination: "{{ deploy_user_path }}/checkouts/www_static"
+- name: "mst_site"
+  git_url: "https://github.com/noahgibbs/mst_site.git"
   destination: "{{ deploy_user_path }}/checkouts/mst_site"
-- git_url: "https://github.com/noahgibbs/rebuilding_rails_site.git"
+  urls:
+    - "software-technique.com"
+    - "www.software-technique.com"
+    - "software-technique.net"
+    - "www.software-technique.net"
+    - "software-technique.dev"
+    - "www.software-technique.dev"
+    - "mst_site.localdev"
+- name: "rebuilding_rails"
+  git_url: "https://github.com/noahgibbs/rebuilding_rails_site.git"
   destination: "{{ deploy_user_path }}/checkouts/rebuilding_rails_site"
+  urls:
+    - "rebuilding-rails.com"
+    - "www.rebuilding-rails.com"
+    - "rr_site.localdev"
 
 # App Git repo
 app_git_repo:       "https://github.com/noahgibbs/rubymadscience.git"
@@ -104,19 +134,30 @@ postgresql_db_password: "{{ vault_postgresql_db_password }}" # from vault
 postgresql_db_name: "{{ app_name }}_production"
 postgresql_listen:
   - "localhost"
-  - "{{ ansible_default_ipv4.address }}" # only if db is on a separate server
+#  - "{{ ansible_default_ipv4.address }}" # only if db is on a separate server
 
 
 # nginx
-nginx_https_enabled: false # replace after setting up certbot
+nginx_https_enabled: true # replace after setting up certbot
 nginx_conf_template: "nginx.conf.j2"
 
 
 # certbot
-# certbot_email: "admin@{{ inventory_hostname }}"
-# certbot_domains:
-#   - "{{ inventory_hostname }}"
-#   - "www.{{ inventory_hostname }}"
+certbot_email: "the.codefolio.guy@gmail.com"
+certbot_domains:
+    - "angelbob.com"
+    - "static.angelbob.com"
+    - "www.angelbob.com"
+    - "codefol.io"
+    - "www.codefol.io"
+    - "software-technique.com"
+    - "www.software-technique.com"
+    - "software-technique.net"
+    - "www.software-technique.net"
+    - "software-technique.dev"
+    - "www.software-technique.dev"
+    - "rebuilding-rails.com"
+    - "www.rebuilding-rails.com"
 
 
 # PostgreSQL Backup to S3
