@@ -15,6 +15,7 @@ static_html_repos:
     - "static.angelbob.com"
     - "www.angelbob.com"
     - "www_static.localdev"
+    - "www_static.staging"
 - name: "codefolio_middleman"
   default: true
   git_url: "https://github.com/noahgibbs/codefolio_middleman.git"
@@ -24,6 +25,7 @@ static_html_repos:
     - "codefol.io"
     - "www.codefol.io"
     - "codefol.io.localdev"
+    - "codefol.io.staging"
   redirects:
     - url: "/speaking"
       destination: "{{ deploy_user_path }}/checkouts/www_static"
@@ -41,6 +43,7 @@ static_html_repos:
     - "software-technique.dev"
     - "www.software-technique.dev"
     - "mst_site.localdev"
+    - "mst_site.staging"
 - name: "rebuilding_rails"
   git_url: "https://github.com/noahgibbs/rebuilding_rails_site.git"
   destination: "{{ deploy_user_path }}/checkouts/rebuilding_rails_site"

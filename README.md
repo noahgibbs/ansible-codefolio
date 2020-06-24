@@ -1,11 +1,12 @@
 # Ansible-Codefolio
 
-Attempted deployment/provisioning script for Codefol.io, forked from EmailThis/ansible-rails
+Deployment/provisioning script for Codefol.io, forked from EmailThis/ansible-rails
 
 ---
 
 ## Config to Validate Manually
 * Certbot (for Let's encrypt SSL certificates)
+* UFW (block all but a few ports? Block port 3000?)
 
 ## How To
 
@@ -65,6 +66,8 @@ If you don't wish to use Vagrant, clone this repo, modify the `inventories/devel
 ansible-playbook -i inventories/development.ini provision.yml
 ```
 
+### Production
+
 To deploy this app to your production server, create another file inside `inventories` directory called `production.ini` with the following contents. For this, you would need a VPS. I've used [DigitalOcean](https://m.do.co/c/031c76b9c838) and [Vultr](https://www.vultr.com/?ref=8597223) in production for my apps and both these services are top-notch.
 ```
 [web]
@@ -74,6 +77,19 @@ To deploy this app to your production server, create another file inside `invent
 ansible_ssh_user=deployer
 ansible_python_interpreter=/usr/bin/python3
 ```
+
+You'll find this won't work to initially create the VM. After all, there's no "deployer" user. I use a "preprovision" inventory and playbook for this. Here's my preprovision ini file (yours will have your own hosts:)
+
+```
+[web]
+104.237.154.219
+
+[all:vars]
+ansible_ssh_user=root
+ansible_python_interpreter=/usr/bin/python3
+```
+
+Run "ansible-playbook -i inventories/preprovision.ini preprovision.yml" to log in as root over ssh and set up the other prerequisites. Then run "ansible-playbook -i inventories/production.ini provision.yml" for a full normal Ansible provisioning run.
 
 ### Deploy
 

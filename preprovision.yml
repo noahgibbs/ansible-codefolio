@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: true
+
+  vars_files:
+    - app-vars.yml
+
+  roles:
+    - role: common
+    - role: user
