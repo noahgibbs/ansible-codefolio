@@ -9,8 +9,8 @@ EnvironmentFile={{ app_root_path }}/.rbenv-vars
 
 WorkingDirectory={{ app_current_path }}
 
-ExecStart={{ rbenv_bundle }} exec puma -C {{ app_shared_path }}/config/puma.rb
-ExecStop={{ rbenv_bundle }} exec puma -S {{ app_shared_path }}/config/puma.rb
+ExecStart={{ rbenv_bundle }} exec puma -C {{ app_shared_path }}/config/puma.rb --control-url unix://{{ puma_control_socket }} --control-token {{ puma_control_token }} -S {{ puma_state_file }}
+ExecStop={{ rbenv_bundle }} exec pumactl -S {{ puma_state_file }} stop
 PIDFile={{ app_pids_path }}/puma.pid
 
 # Should systemd restart puma?

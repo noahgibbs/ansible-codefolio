@@ -62,6 +62,7 @@ app_root_path:      "{{ deploy_user_path }}/{{ app_name }}"
 app_current_path:   "{{ app_root_path }}/current"
 app_releases_path:  "{{ app_root_path }}/releases"
 app_shared_path:    "{{ app_root_path }}/shared"
+app_state_path:     "{{ app_shared_path }}/state"
 app_pids_path:      "{{ app_shared_path }}/tmp/pids"
 app_logs_path:      "{{ app_shared_path }}/logs"
 app_sockets_path:   "{{ app_shared_path }}/sockets"
@@ -70,8 +71,12 @@ rails_environment:  production
 
 # Puma
 puma_service_file:  "puma.service.j2"
-puma_config_file:   "{{ app_current_path }}/shared/config/puma.rb"
+puma_config_file:   "{{ app_current_path }}/config/puma.rb"
 puma_socket:        "{{ app_sockets_path }}/puma.sock"
+puma_state_file:    "{{ app_state_path }}/puma.state"
+puma_control_socket:  "{{ app_sockets_path }}/pumactl.sock"
+# The Puma control token will only be used over a Unix socket, which can't be seen off-machine
+puma_control_token: ThisSecretDoesntMatter
 puma_web_concurrency: 2
 
 # Sidekiq
@@ -92,6 +97,7 @@ ansistrano_shared_paths:
   - log           # log -> ../../shared/log
   - tmp           # tmp -> ../../shared/tmp
   - vendor        # vendor -> ../../shared/vendor
+  - state
   - public/assets # For rails asset pipeline
   - public/packs  # For webpacker
   - node_modules  # For webpacker node_modules -> ../../shared/node_modules

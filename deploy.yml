@@ -59,6 +59,13 @@
       args:
         chdir: "{{ deploy_user_path }}/checkouts/codefolio_middleman"
 
+    - name: Middleman cron job to rebuild daily
+      cron:
+        name: "rebuild codefolio_middleman"
+        minute: "3"
+        hour: "1"
+        job: "cd {{ deploy_user_path }}/checkouts/codefolio_middleman && {{ rbenv_bundle }} exec middleman build"
+
   roles:
     - role: ansistrano.deploy
     
