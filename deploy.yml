@@ -62,6 +62,7 @@
     - name: Middleman cron job to rebuild daily
       cron:
         name: "rebuild codefolio_middleman"
+        user: "{{ deploy_user }}"
         minute: "3"
         hour: "1"
         job: "cd {{ deploy_user_path }}/checkouts/codefolio_middleman && {{ rbenv_bundle }} exec middleman build"
