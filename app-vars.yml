@@ -173,6 +173,10 @@ certbot_domains:
     - "www.software-technique.dev"
     - "rebuilding-rails.com"
     - "www.rebuilding-rails.com"
+    - "rubymadscience.com"
+    - "www.rubymadscience.com"
+    - "madrubyscience.com"
+    - "www.madrubyscience.com"
 
 
 # PostgreSQL Backup to S3
