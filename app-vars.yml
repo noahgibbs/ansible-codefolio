@@ -55,7 +55,7 @@ static_html_repos:
 
 # App Git repo
 app_git_repo:       "https://github.com/noahgibbs/rubymadscience.git"
-app_git_branch:     "master"
+app_git_branch:     "main"
 
 # Rails app
 app_root_path:      "{{ deploy_user_path }}/{{ app_name }}"
