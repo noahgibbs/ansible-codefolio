@@ -3,9 +3,11 @@ upstream app {
     server unix:///{{ puma_socket }} fail_timeout=0;
 }
 
+{% for app_url in rails_app_urls %}
+
 server {
     listen 80;
-    server_name rubymadscience.com www.rubymadscience.com rubymadscience.localdev rubymadscience.staging computermadscience.com computer-mad-science.com jsmadscience.com mad-computer-science.com ;
+    server_name {{ app_url }} ;
 
     root {{ app_current_path }}/public;
 
@@ -22,4 +24,13 @@ server {
     error_page 500 502 503 504 /500.html;
     client_max_body_size 4G;
     keepalive_timeout 10;
+
+    {% if nginx_https_enabled %}
+    listen [::]:443 ssl;
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/{{ app_url }}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/{{ app_url }}/privkey.pem; # managed by Certbot
+    {% endif %}
 }
+
+{% endfor %}

@@ -6,24 +6,43 @@ deploy_user_path:   "/home/{{ deploy_user }}"
 
 # Static HTML repos
 static_html_repos:
-- name: "www_static"
+- name: "www_static_https"
   git_url: "https://github.com/noahgibbs/www_static.git"
   destination: "{{ deploy_user_path }}/checkouts/www_static"
   root: "{{ deploy_user_path }}/checkouts/www_static"
+  certbot: "angelbob.com"
   urls:
     - "angelbob.com"
     - "static.angelbob.com"
     - "www.angelbob.com"
+- name: "www_static"
+  git_url: "https://github.com/noahgibbs/www_static.git"
+  destination: "{{ deploy_user_path }}/checkouts/www_static"
+  root: "{{ deploy_user_path }}/checkouts/www_static"
+  certbot: false
+  urls:
     - "www_static.localdev"
     - "www_static.staging"
-- name: "codefolio_middleman"
+- name: "codefolio_middleman_https"
   default: true
+  certbot: "codefol.io"
   git_url: "https://github.com/noahgibbs/codefolio_middleman.git"
   destination: "{{ deploy_user_path }}/checkouts/codefolio_middleman"
   root: "{{ deploy_user_path }}/checkouts/codefolio_middleman/public"
   urls:
     - "codefol.io"
     - "www.codefol.io"
+  redirects:
+    - url: "/speaking"
+      destination: "{{ deploy_user_path }}/checkouts/www_static"
+    - url: "/portfolio"
+      destination: "{{ deploy_user_path }}/checkouts/www_static"
+- name: "codefolio_middleman"
+  certbot: false
+  git_url: "https://github.com/noahgibbs/codefolio_middleman.git"
+  destination: "{{ deploy_user_path }}/checkouts/codefolio_middleman"
+  root: "{{ deploy_user_path }}/checkouts/codefolio_middleman/public"
+  urls:
     - "codefol.io.localdev"
     - "codefol.io.staging"
   redirects:
@@ -31,26 +50,52 @@ static_html_repos:
       destination: "{{ deploy_user_path }}/checkouts/www_static"
     - url: "/portfolio"
       destination: "{{ deploy_user_path }}/checkouts/www_static"
-- name: "mst_site"
+- name: "mst_site_https_com"
+  certbot: "software-technique.com"
   git_url: "https://github.com/noahgibbs/mst_site.git"
   destination: "{{ deploy_user_path }}/checkouts/mst_site"
   root: "{{ deploy_user_path }}/checkouts/mst_site"
   urls:
     - "software-technique.com"
     - "www.software-technique.com"
+- name: "mst_site_https_net"
+  certbot: "software-technique.net"
+  git_url: "https://github.com/noahgibbs/mst_site.git"
+  destination: "{{ deploy_user_path }}/checkouts/mst_site"
+  root: "{{ deploy_user_path }}/checkouts/mst_site"
+  urls:
     - "software-technique.net"
     - "www.software-technique.net"
+- name: "mst_site_https_dev"
+  certbot: "software-technique.dev"
+  git_url: "https://github.com/noahgibbs/mst_site.git"
+  destination: "{{ deploy_user_path }}/checkouts/mst_site"
+  root: "{{ deploy_user_path }}/checkouts/mst_site"
+  urls:
     - "software-technique.dev"
     - "www.software-technique.dev"
+- name: "mst_site_https"
+  certbot: false
+  git_url: "https://github.com/noahgibbs/mst_site.git"
+  destination: "{{ deploy_user_path }}/checkouts/mst_site"
+  root: "{{ deploy_user_path }}/checkouts/mst_site"
+  urls:
     - "mst_site.localdev"
     - "mst_site.staging"
-- name: "rebuilding_rails"
+- name: "rebuilding_rails_https"
+  certbot: "rebuilding-rails.com"
   git_url: "https://github.com/noahgibbs/rebuilding_rails_site.git"
   destination: "{{ deploy_user_path }}/checkouts/rebuilding_rails_site"
   root: "{{ deploy_user_path }}/checkouts/rebuilding_rails_site"
   urls:
     - "rebuilding-rails.com"
     - "www.rebuilding-rails.com"
+- name: "rebuilding_rails"
+  certbot: false
+  git_url: "https://github.com/noahgibbs/rebuilding_rails_site.git"
+  destination: "{{ deploy_user_path }}/checkouts/rebuilding_rails_site"
+  root: "{{ deploy_user_path }}/checkouts/rebuilding_rails_site"
+  urls:
     - "rr_site.localdev"
 
 # App Git repo
@@ -58,6 +103,15 @@ app_git_repo:       "https://github.com/noahgibbs/rubymadscience.git"
 app_git_branch:     "main"
 
 # Rails app
+rails_app_urls:
+  - rubymadscience.com
+  - www.rubymadscience.com
+  - computermadscience.com
+  - computer-mad-science.com
+  - jsmadscience.com
+  - mad-computer-science.com
+#  - rubymadscience.localdev
+#  - rubymadscience.staging
 app_root_path:      "{{ deploy_user_path }}/{{ app_name }}"
 app_current_path:   "{{ app_root_path }}/current"
 app_releases_path:  "{{ app_root_path }}/releases"
@@ -153,7 +207,8 @@ postgresql_listen:
 
 
 # nginx
-nginx_https_enabled: false # replace after setting up certbot
+nginx_https_enabled: true # replace after setting up certbot
+#nginx_static_site_https_enabled: false # transition to Certbot for static sites
 nginx_conf_template: "nginx.conf.j2"
 
 
@@ -177,7 +232,14 @@ certbot_domains:
     - "www.rubymadscience.com"
     - "madrubyscience.com"
     - "www.madrubyscience.com"
-
+    - "mad-computer-science.com"
+    - "www.mad-computer-science.com"
+    - "computer-mad-science.com"
+    - "www.computer-mad-science.com"
+    - "computermadscience.com"
+    - "www.computermadscience.com"
+    - "jsmadscience.com"
+    - "www.jsmadscience.com"
 
 # PostgreSQL Backup to S3
 aws_key: "{{ vault_aws_key }}"
