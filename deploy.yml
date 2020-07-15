@@ -67,6 +67,11 @@
         hour: "1"
         job: "cd {{ deploy_user_path }}/checkouts/codefolio_middleman && {{ rbenv_bundle }} exec middleman build"
 
+    - name: Honeybadger record deployment
+      shell: "{{ rbenv_bundle }} exec honeybadger deploy --environment=production"
+      args:
+        chdir: "{{ deploy_user_path }}/rubymadscience/current"
+
   roles:
     - role: ansistrano.deploy
     
